@@ -20,4 +20,9 @@
 }  */
 .btn-md{
     background: purple;
+    margin: 2px;
+}
+head{
+    display: flex;
+    height: 100%;
 }
