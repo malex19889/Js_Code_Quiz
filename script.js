@@ -8,7 +8,7 @@ var quizStartEl = document.getElementById("start-game");
 var ansAlert = document.getElementById("game-ansAlert");
 var currScore = document.getElementById("current-score");
 var PlayerInitsForm = document.getElementById("player-inits");
-var playerInits = document.getElementById("User-inits")
+var playerInits = document.getElementById("inits")
 var saveBtn = document.getElementById("save")
 
 var startTime = 60;
@@ -29,6 +29,31 @@ function start() {
    renderQuestions();
   quizStartEl.style.display = "none";
 }
+function renderQuestions() {
+  if (increment === questions.length) { 
+    endGame();
+  } else {
+      gameH1.textContent="";
+      currScore.textContent = correctAns;
+      quizText.textContent = questions[increment].question
+      for (var i = 0; i < questions[increment].answers.length; i++) {
+        var quizAns = document.createElement("button")
+        mainBtnEl.appendChild(quizAns);
+        quizAns.setAttribute("class", "btn btn-secondary btn-md")
+        quizAns.textContent = questions[increment].answers[i]
+        quizAns.addEventListener("click",ansListener);
+      }
+      
+  }
+}
+function ansListener(){
+    var quizAnsState = this.textContent
+    if ((quizAnsState === questions[increment].correctAns)) {
+       correct();
+    } else {
+        wrong();
+    }  
+}
 function wrong() {
   startTime -= 10;
   console.log("wrong")
@@ -37,7 +62,7 @@ function correct() {
   startTime += 5;
   correctAns++;
   increment++;
-  console.log("correct")
+  console.log(correctAns)
   mainBtnEl.innerHTML = ''
   renderQuestions();
 }
@@ -66,35 +91,9 @@ function endGame(){
 function save(e) {
  
   e.preventDefault() 
-  var playerSave = {name: playerInits, score: finalScore};
-  localStorage.setItem("user", JSON.stringify(playerSave))
+  var playerSave = {playerInits,};
+  localStorage.setItem("playerSave", JSON.stringify(playerSave))
 }
-function renderQuestions() {
-  if (increment === questions.length) { 
-    endGame();
-  } else {
-      gameH1.textContent="";
-      currScore.textContent = correctAns;
-      quizText.textContent = questions[increment].question
-      for (var i = 0; i < questions[increment].answers.length; i++) {
-        var quizAns = document.createElement("button")
-        mainBtnEl.appendChild(quizAns);
-        quizAns.setAttribute("class", "btn btn-secondary btn-md")
-        quizAns.textContent = questions[increment].answers[i]
-        quizAns.addEventListener("click",ansListener);
-      }
-      
-  }
-}
-function ansListener(){
-    var quizAnsState = this.textContent
-    if ((quizAnsState === questions[increment].correctAns)) {
-       correct();
-    } else {
-        wrong();
-    }  
-}
-
 var questions = [
   {
   question: "Which company developed JavaScript?",
