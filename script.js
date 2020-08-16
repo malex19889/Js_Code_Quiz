@@ -8,10 +8,12 @@ var quizStartEl = document.getElementById("start-game");
 var ansAlert = document.getElementById("game-ansAlert");
 var currScore = document.getElementById("current-score");
 var PlayerInitsForm = document.getElementById("player-inits");
+var playerInits = document.getElementById("User-inits")
+var saveBtn = document.getElementById("save")
+
 var startTime = 60;
 var correctAns = 0;
 var increment = 0;
-var finalScore = startTime + correctAns;
 
                         
 function gameLoad() {
@@ -19,6 +21,7 @@ function gameLoad() {
     quizText.textContent ="Here are some quick rules and objective information.\nYou will have 60 seconds to answer as many questions possible.\nIncorrect answers will subtract 10 seconds off the clock.\nCorrect answers will add 5 seconds back.\nThe game ends when all questions are answerd or the timer hits 0.\nYour score is how much time you have left + your correct answers\nGood Luck! ";
     ansAlert.style.display = "none";
     PlayerInitsForm.style.display = "none";
+    playerInits.style.display = "block"
     quizStartEl.addEventListener("click", start);
 }
 function start() {
@@ -48,6 +51,8 @@ function timer() {
     }, 1000);
 }
 function endGame(){
+  var finalScore =  startTime + correctAns;
+  
   gameH1.textContent = "Game Over"
   gameH1.setAttribute("style","color: red")
   PlayerInitsForm.style.display = "block";
@@ -56,7 +61,13 @@ function endGame(){
   timerEl.style.display = "none";
   mainBtnEl.style.display = "none"
   quizText.textContent = "Your score was "+ finalScore
-  // console.log('game over')
+  saveBtn.addEventListener("click",save)
+}
+function save(e) {
+ 
+  e.preventDefault() 
+  var playerSave = {name: playerInits, score: finalScore};
+  localStorage.setItem("user", JSON.stringify(playerSave))
 }
 function renderQuestions() {
   if (increment === questions.length) { 
@@ -97,55 +108,55 @@ var questions = [
   correctAns: "'This' keyword refers to the object from where it was called.",
   questionHint: "",
   },
-  {
-  question: "Which symbol is used for single line comments in Javascript?",
-  answers: ["#// ", " // ", "/* */", " ;--; "],
-  correctAns: " // ",
-  questionHint: "",
-  },
-  {
-  question: "Which symbol is used for multi line comments in Javascript?",
-  answers: [" #// ", " // ", " /* */ ", " ;--; "],
-  correctAns: " /* */ ",
-  questionHint: "",
-  },
-  {
-  question: " What are all the looping structures in JavaScript?",
-  answers: ["For, Interval, Do-it ", "If, While, Do-something ", "For, While, Do-while ", "For, While, Do-for "],
-  correctAns: "For, While, Do-while ",
-  questionHint: "",
-  },
-  {
-  question: "____ checks only for equality in value?",
-  answers: [" =-+ ", " = ", " === ", " == "],
-  correctAns: " == ",
-  questionHint: "",
-  },
-  {
-  question: "____ is a strict equality test and returns false if either the value or the type of two variables are different.",
-  answers: ["==&== ", " =?= ", " === ", " = "],
-  correctAns: " === ",
-  questionHint: "",
-  },
-  {
-  question: "How many types of Pop up boxes available in JavaScript?",
-  answers: [" 3 ", " 4 ", " 1 ", " As many asy you want! "],
-  correctAns: " 3 ",
-  questionHint: "",
-  },
+  // {
+  // question: "Which symbol is used for single line comments in Javascript?",
+  // answers: ["#// ", " // ", "/* */", " ;--; "],
+  // correctAns: " // ",
+  // questionHint: "",
+  // },
+  // {
+  // question: "Which symbol is used for multi line comments in Javascript?",
+  // answers: [" #// ", " // ", " /* */ ", " ;--; "],
+  // correctAns: " /* */ ",
+  // questionHint: "",
+  // },
+  // {
+  // question: " What are all the looping structures in JavaScript?",
+  // answers: ["For, Interval, Do-it ", "If, While, Do-something ", "For, While, Do-while ", "For, While, Do-for "],
+  // correctAns: "For, While, Do-while ",
+  // questionHint: "",
+  // },
+  // {
+  // question: "____ checks only for equality in value?",
+  // answers: [" =-+ ", " = ", " === ", " == "],
+  // correctAns: " == ",
+  // questionHint: "",
+  // },
+  // {
+  // question: "____ is a strict equality test and returns false if either the value or the type of two variables are different.",
+  // answers: ["==&== ", " =?= ", " === ", " = "],
+  // correctAns: " === ",
+  // questionHint: "",
+  // },
+  // {
+  // question: "How many types of Pop up boxes available in JavaScript?",
+  // answers: [" 3 ", " 4 ", " 1 ", " As many asy you want! "],
+  // correctAns: " 3 ",
+  // questionHint: "",
+  // },
   
-  {
-  question: "Which company developed Jscript?",
-  answers: ["Netscape", "Google", "Microsoft", "Apple"],
-  correctAns: "Microsoft",
-  questionHint: "",
-  },
-  {
-  question: " Which keyword is used to print the text in the screen?",
-  answers: [" this ", " alert ", " write ", " cout "],
-  correctAns: " write ",
-  questionHint: "",
-  },
+  // {
+  // question: "Which company developed Jscript?",
+  // answers: ["Netscape", "Google", "Microsoft", "Apple"],
+  // correctAns: "Microsoft",
+  // questionHint: "",
+  // },
+  // {
+  // question: " Which keyword is used to print the text in the screen?",
+  // answers: [" this ", " alert ", " write ", " cout "],
+  // correctAns: " write ",
+  // questionHint: "",
+  // },
 ];
 gameLoad()
 // endGame();
