@@ -1,5 +1,6 @@
 var scoresBtnEl= document.getElementById("view-scores");
 var scoreDisplay = document.getElementById("score-display");
+var sideText = document.getElementById("side-text");
 var timeTextEl =document.getElementById("time-text");
 var timerEl = document.getElementById("timer");
 var gameH1 = document.getElementById("game-h1");
@@ -25,6 +26,7 @@ function gameLoad() {
 
 }
 function viewScores(){
+  sideText.textContent = "High Score"
   var highScore = JSON.parse(localStorage.getItem("playerStats"));
   scoreDisplay.textContent = highScore.finalScore;
 }
@@ -96,7 +98,7 @@ function renderEndInput(){
 }
 function endGame(){
   finalScore =  startTime + correctAns;
-  console.log(finalScore)
+  currScore.textContent = correctAns + " Correct ansers";
   gameH1.textContent = "Game Over"
   gameH1.setAttribute("style","color: red")
   renderEndInput();
@@ -125,55 +127,55 @@ var questions = [
   correctAns: "'This' keyword refers to the object from where it was called.",
   questionHint: "",
   },
-  // {
-  // question: "Which symbol is used for single line comments in Javascript?",
-  // answers: ["#// ", " // ", "/* */", " ;--; "],
-  // correctAns: " // ",
-  // questionHint: "",
-  // },
-  // {
-  // question: "Which symbol is used for multi line comments in Javascript?",
-  // answers: [" #// ", " // ", " /* */ ", " ;--; "],
-  // correctAns: " /* */ ",
-  // questionHint: "",
-  // },
-  // {
-  // question: " What are all the looping structures in JavaScript?",
-  // answers: ["For, Interval, Do-it ", "If, While, Do-something ", "For, While, Do-while ", "For, While, Do-for "],
-  // correctAns: "For, While, Do-while ",
-  // questionHint: "",
-  // },
-  // {
-  // question: "____ checks only for equality in value?",
-  // answers: [" =-+ ", " = ", " === ", " == "],
-  // correctAns: " == ",
-  // questionHint: "",
-  // },
-  // {
-  // question: "____ is a strict equality test and returns false if either the value or the type of two variables are different.",
-  // answers: ["==&== ", " =?= ", " === ", " = "],
-  // correctAns: " === ",
-  // questionHint: "",
-  // },
-  // {
-  // question: "How many types of Pop up boxes available in JavaScript?",
-  // answers: [" 3 ", " 4 ", " 1 ", " As many asy you want! "],
-  // correctAns: " 3 ",
-  // questionHint: "",
-  // },
+  {
+  question: "Which symbol is used for single line comments in Javascript?",
+  answers: ["#// ", " // ", "/* */", " ;--; "],
+  correctAns: " // ",
+  questionHint: "",
+  },
+  {
+  question: "Which symbol is used for multi line comments in Javascript?",
+  answers: [" #// ", " // ", " /* */ ", " ;--; "],
+  correctAns: " /* */ ",
+  questionHint: "",
+  },
+  {
+  question: " What are all the looping structures in JavaScript?",
+  answers: ["For, Interval, Do-it ", "If, While, Do-something ", "For, While, Do-while ", "For, While, Do-for "],
+  correctAns: "For, While, Do-while ",
+  questionHint: "",
+  },
+  {
+  question: "____ checks only for equality in value?",
+  answers: [" =-+ ", " = ", " === ", " == "],
+  correctAns: " == ",
+  questionHint: "",
+  },
+  {
+  question: "____ is a strict equality test and returns false if either the value or the type of two variables are different.",
+  answers: ["==&== ", " =?= ", " === ", " = "],
+  correctAns: " === ",
+  questionHint: "",
+  },
+  {
+  question: "How many types of Pop up boxes available in JavaScript?",
+  answers: [" 3 ", " 4 ", " 1 ", " As many asy you want! "],
+  correctAns: " 3 ",
+  questionHint: "",
+  },
   
-  // {
-  // question: "Which company developed Jscript?",
-  // answers: ["Netscape", "Google", "Microsoft", "Apple"],
-  // correctAns: "Microsoft",
-  // questionHint: "",
-  // },
-  // {
-  // question: " Which keyword is used to print the text in the screen?",
-  // answers: [" this ", " alert ", " write ", " cout "],
-  // correctAns: " write ",
-  // questionHint: "",
-  // },
+  {
+  question: "Which company developed Jscript?",
+  answers: ["Netscape", "Google", "Microsoft", "Apple"],
+  correctAns: "Microsoft",
+  questionHint: "",
+  },
+  {
+  question: " Which keyword is used to print the text in the screen?",
+  answers: [" this ", " alert ", " write ", " cout "],
+  correctAns: " write ",
+  questionHint: "",
+  },
 ];
 gameLoad()
 // endGame();
