@@ -38,7 +38,8 @@ function start() {
 }
 // function to render answers and questions from question array
 function renderQuestions() {
-  if (increment === questions.length) {
+  if ((increment === questions.length)|| (startTime <= 0)) {
+    startTime = 0;
     endGame();
   } else {
     // hide h1 element text
@@ -73,6 +74,10 @@ function wrong() {
   startTime -= 10;
   // increment wrong choice
   incorrectAns++
+  if ((startTime <= 0)) {
+    startTime = 0;
+    endGame();
+  }
 }
 function correct() {
   // award for correct answer
@@ -118,6 +123,7 @@ function endGame() {
   currScore.textContent = correctAns + " Correct ansers and "+ incorrectAns+ " Incorrect selections";
   gameH1.textContent = "Game Over";
   gameH1.setAttribute("style", "color: red");
+  mainBtnEl.innerHTML = "";
   renderEndInput();
   scoresBtnEl.style.display = "none";
   timeTextEl.style.display = "none";
