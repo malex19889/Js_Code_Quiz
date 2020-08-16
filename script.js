@@ -1,4 +1,5 @@
 var scoresBtnEl= document.getElementById("view-scores");
+var scoreDisplay = document.getElementById("score-display");
 var timeTextEl =document.getElementById("time-text");
 var timerEl = document.getElementById("timer");
 var gameH1 = document.getElementById("game-h1");
@@ -7,9 +8,8 @@ var mainBtnEl= document.getElementById("btn-row");
 var quizStartEl = document.getElementById("start-game");
 var ansAlert = document.getElementById("game-ansAlert");
 var currScore = document.getElementById("current-score");
-var PlayerInitsForm = document.getElementById("player-inits");
-var playerInits = document.getElementById("inits")
-var saveBtn = document.getElementById("save")
+var finalScore = null;
+var playerSave;
 
 var startTime = 60;
 var correctAns = 0;
@@ -20,9 +20,13 @@ function gameLoad() {
     gameH1.textContent = "Welcome to javaScript code quiz!";
     quizText.textContent ="Here are some quick rules and objective information.\nYou will have 60 seconds to answer as many questions possible.\nIncorrect answers will subtract 10 seconds off the clock.\nCorrect answers will add 5 seconds back.\nThe game ends when all questions are answerd or the timer hits 0.\nYour score is how much time you have left + your correct answers\nGood Luck! ";
     ansAlert.style.display = "none";
-    PlayerInitsForm.style.display = "none";
-    playerInits.style.display = "block"
+    scoresBtnEl.addEventListener("click",viewScores)
     quizStartEl.addEventListener("click", start);
+
+}
+function viewScores(){
+  var highScore = JSON.parse(localStorage.getItem("playerStats"));
+  scoreDisplay.textContent = highScore.finalScore;
 }
 function start() {
   timer();
@@ -75,24 +79,38 @@ function timer() {
       }
     }, 1000);
 }
+function renderEndInput(){
+  var endInfo = document.createElement("h6")
+  mainBtnEl.append(endInfo)
+  endInfo.textContent = "Please enter your initials";
+  var endForm = document.createElement("form")
+  mainBtnEl.append(endForm)
+  var endInits = document.createElement("input");
+  endInits.setAttribute("id", "inits");
+  endForm.append(endInits);
+  var endBtn = document.createElement("button");
+  endBtn.setAttribute("id","saveBtn")
+  endBtn.setAttribute("class", "btn btn-secondary btn-md")
+  endBtn.textContent = "Save"
+  endForm.append(endBtn)
+}
 function endGame(){
-  var finalScore =  startTime + correctAns;
-  
+  finalScore =  startTime + correctAns;
+  console.log(finalScore)
   gameH1.textContent = "Game Over"
   gameH1.setAttribute("style","color: red")
-  PlayerInitsForm.style.display = "block";
+  renderEndInput();
   scoresBtnEl.style.display = "none";
   timeTextEl.style.display = "none";
   timerEl.style.display = "none";
-  mainBtnEl.style.display = "none"
   quizText.textContent = "Your score was "+ finalScore
   saveBtn.addEventListener("click",save)
 }
 function save(e) {
- 
   e.preventDefault() 
-  var playerSave = {playerInits,};
-  localStorage.setItem("playerSave", JSON.stringify(playerSave))
+  var playerInitials = document.getElementById("inits").Value;
+  playerSave = {playerInitials,finalScore};
+  localStorage.setItem("playerStats",JSON.stringify(playerSave))
 }
 var questions = [
   {
