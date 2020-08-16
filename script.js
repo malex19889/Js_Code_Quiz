@@ -11,12 +11,10 @@ var ansAlert = document.getElementById("game-ansAlert");
 var currScore = document.getElementById("current-score");
 var finalScore = null;
 var playerSave;
-
 var startTime = 60;
 var correctAns = 0;
 var increment = 0;
-
-                        
+// function to render start of game 
 function gameLoad() {
     gameH1.textContent = "Welcome to javaScript code quiz!";
     quizText.textContent ="Here are some quick rules and objective information.\nYou will have 60 seconds to answer as many questions possible.\nIncorrect answers will subtract 10 seconds off the clock.\nCorrect answers will add 5 seconds back.\nThe game ends when all questions are answerd or the timer hits 0.\nYour score is how much time you have left + your correct answers\nGood Luck! ";
@@ -25,33 +23,42 @@ function gameLoad() {
     quizStartEl.addEventListener("click", start);
 
 }
+// function to view local storage high score
 function viewScores(){
   sideText.textContent = "High Score"
   var highScore = JSON.parse(localStorage.getItem("playerStats"));
   scoreDisplay.textContent = highScore.finalScore;
 }
+// function to start game timer, render 1st question, and hide start button
 function start() {
   timer();
    renderQuestions();
   quizStartEl.style.display = "none";
 }
+// function to render answers and questions from question array
 function renderQuestions() {
   if (increment === questions.length) { 
     endGame();
   } else {
+    // hide h1 element text
       gameH1.textContent="";
+      // render game stats
       currScore.textContent = correctAns;
+      // set game question
       quizText.textContent = questions[increment].question
+      // loop to set answers and render buttons
       for (var i = 0; i < questions[increment].answers.length; i++) {
         var quizAns = document.createElement("button")
         mainBtnEl.appendChild(quizAns);
         quizAns.setAttribute("class", "btn btn-secondary btn-md")
         quizAns.textContent = questions[increment].answers[i]
+        // quiz button event listener 
         quizAns.addEventListener("click",ansListener);
       }
       
   }
 }
+// function to apply click listener peramiters
 function ansListener(){
     var quizAnsState = this.textContent
     if ((quizAnsState === questions[increment].correctAns)) {
@@ -60,18 +67,24 @@ function ansListener(){
         wrong();
     }  
 }
+// function for wrong answer selection in quiz answers
 function wrong() {
+  // penelty for incorrect answer
   startTime -= 10;
-  console.log("wrong")
 }
 function correct() {
+  // award for correct answer
   startTime += 5;
+  // increment correct answer
   correctAns++;
+  // increment increment
   increment++;
-  console.log(correctAns)
+  // clear html content before rendering next questions
   mainBtnEl.innerHTML = ''
+  // function call to render new question
   renderQuestions();
 }
+// timer function
 function timer() {
     var timerInterval = setInterval(function() {
       timerEl.textContent = startTime
@@ -81,6 +94,7 @@ function timer() {
       }
     }, 1000);
 }
+// render end of game content
 function renderEndInput(){
   var endInfo = document.createElement("h6")
   mainBtnEl.append(endInfo)
@@ -96,6 +110,7 @@ function renderEndInput(){
   endBtn.textContent = "Save"
   endForm.append(endBtn)
 }
+// end of game function to change display
 function endGame(){
   finalScore =  startTime + correctAns;
   currScore.textContent = correctAns + " Correct ansers";
@@ -108,12 +123,14 @@ function endGame(){
   quizText.textContent = "Your score was "+ finalScore
   saveBtn.addEventListener("click",save)
 }
+// save button peramiters
 function save(e) {
   e.preventDefault() 
   var playerInitials = document.getElementById("inits").Value;
   playerSave = {playerInitials,finalScore};
   localStorage.setItem("playerStats",JSON.stringify(playerSave))
 }
+// game questions and answers
 var questions = [
   {
   question: "Which company developed JavaScript?",
@@ -177,5 +194,5 @@ var questions = [
   questionHint: "",
   },
 ];
+// call game load function
 gameLoad()
-// endGame();
