@@ -11,7 +11,7 @@ var ansAlert = document.getElementById("game-ansAlert");
 var currScore = document.getElementById("current-score");
 var finalScore = 0;
 var playerSave;
-var startTime = 60;
+var startTime = 2;
 var correctAns = 0;
 var incorrectAns = 0;
 var increment = 0;
