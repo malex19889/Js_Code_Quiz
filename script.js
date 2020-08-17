@@ -39,10 +39,6 @@ function start() {
 // function to render answers and questions from question array
 function renderQuestions() {
   if ((increment === questions.length)|| (startTime <= 0)) {
-<<<<<<< HEAD
-=======
-    startTime = 0;
->>>>>>> 82c201066d7d91682b3d89a26808446df0238067
     endGame();
   } else {
     // hide h1 element text
@@ -77,13 +73,8 @@ function wrong() {
   startTime -= 10;
   // increment wrong choice
   incorrectAns++
-<<<<<<< HEAD
 
   if ((startTime <= 0)) {
-=======
-  if ((startTime <= 0)) {
-    startTime = 0;
->>>>>>> 82c201066d7d91682b3d89a26808446df0238067
     endGame();
   }
 }
