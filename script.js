@@ -9,7 +9,7 @@ var mainBtnEl = document.getElementById("btn-row");
 var quizStartEl = document.getElementById("start-game");
 var ansAlert = document.getElementById("game-ansAlert");
 var currScore = document.getElementById("current-score");
-var finalScore = null;
+var finalScore = 0;
 var playerSave;
 var startTime = 60;
 var correctAns = 0;
@@ -38,7 +38,7 @@ function start() {
 }
 // function to render answers and questions from question array
 function renderQuestions() {
-  if (increment === questions.length) {
+  if ((increment === questions.length)|| (startTime <= 0)) {
     endGame();
   } else {
     // hide h1 element text
@@ -73,6 +73,10 @@ function wrong() {
   startTime -= 10;
   // increment wrong choice
   incorrectAns++
+
+  if ((startTime <= 0)) {
+    endGame();
+  }
 }
 function correct() {
   // award for correct answer
@@ -93,6 +97,7 @@ function timer() {
     startTime--;
     if (startTime === 0 || increment === questions.length) {
       clearInterval(timerInterval);
+      endGame();
     }
   }, 1000);
 }
@@ -111,24 +116,31 @@ function renderEndInput() {
   endBtn.setAttribute("class", "btn btn-secondary btn-md");
   endBtn.textContent = "Save";
   endForm.append(endBtn);
+  var playAgain = document.createElement("button");
+  playAgain.setAttribute("id", "play-again");
+  playAgain.setAttribute("class", "btn btn-secondary btn-md");
+  playAgain.textContent = "Play again";
+  endForm.append(playAgain);
+  console.log(startTime)
+  finalScore = startTime + correctAns;
+  quizText.textContent = "Your score was " + finalScore;
 }
 // end of game function to change display
 function endGame() {
-  finalScore = startTime + correctAns;
   currScore.textContent = correctAns + " Correct ansers and "+ incorrectAns+ " Incorrect selections";
   gameH1.textContent = "Game Over";
   gameH1.setAttribute("style", "color: red");
+  mainBtnEl.innerHTML = "";
   renderEndInput();
   scoresBtnEl.style.display = "none";
   timeTextEl.style.display = "none";
   timerEl.style.display = "none";
-  quizText.textContent = "Your score was " + finalScore;
   saveBtn.addEventListener("click", save);
 }
 // save button peramiters
 function save(e) {
   e.preventDefault();
-  var playerInitials = document.getElementById("inits").Value;
+  var playerInitials = document.getElementById("inits");
   playerSave = { playerInitials, finalScore };
   localStorage.setItem("playerStats", JSON.stringify(playerSave));
 }
